@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number</title>
+  <link rel="stylesheet" href="Nandhakumar_S_form.css">
+</head>
+<body>
+  <h1>Guess the Number!</h1>
+  <p>Guess a number between 1 and 15:</p>
+  <input type="number" id="guess" min="1" max="15">
+  <button id="submit">Submit Guess</button>
+  <p id="message"></p>
+  <p id="tries">Tries Remaining: <span id="tries-left"></span></p>
+
+  <script>
+    const targetNumber = Math.floor(Math.random() * 15) + 1;
+    let tries = 3;
+
+    const messageEl = document.getElementById("message");
+    const triesLeftEl = document.getElementById("tries-left");
+    const guessEl = document.getElementById("guess");
+    const submitBtn = document.getElementById("submit");
+
+    triesLeftEl.textContent = tries;
+
+    submitBtn.addEventListener("click", () => {
+      const guess = Number(guessEl.value); 
+
+      if (isNaN(guess)) {
+        messageEl.textContent = "Please enter a valid number.";
+        return;
+      }
+
+      tries--;
+      triesLeftEl.textContent = tries;
+
+      if (guess === targetNumber) {
+        messageEl.textContent = "Congratulations! You guessed the number!";
+        guessEl.disabled = true; 
+        submitBtn.disabled = true; 
+      } else if (tries === 0) {
+        messageEl.textContent = `You ran out of tries. The number was ${targetNumber}.`;
+        guessEl.disabled = true;
+        submitBtn.disabled = true;
+      } else {
+        messageEl.textContent =
+          guess > targetNumber
+            ? "Your guess is too high. Try again!"
+            : "Your guess is too low. Try again!";
+      }
+    });
+
+  </script>
+</body>
+</html>
